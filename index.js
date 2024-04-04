@@ -1,13 +1,24 @@
-export const smallestDivisor = (num, pro = 2) => {
-  if (num === 1)
-    return 1;
+export const ipToInt = (ipStr) => {
+  let numIp = 0;
+  const arrOkt = ipStr.split(".");
+  let i = 3;
+  arrOkt.forEach((num) => {
+    numIp += num * 256 ** i--;
+  });
+  return numIp;
+};
 
-  if (num % 2 === 0)
-    return 2;
+export const intToIp = (ipNum) => {
+  let numIp = [];
+  numIp.push(Math.floor(ipNum / 256 ** 3));
+  ipNum -= numIp[0] * 256 ** 3;
+  numIp.push(Math.floor(ipNum / 256 ** 2));
+  ipNum -= numIp[1] * 256 ** 2;
+  numIp.push(Math.floor(ipNum / 256));
+  numIp.push(Math.floor((ipNum -= numIp[2] * 256)));
 
-  if (num % pro === 0){
-    return pro;
-  } else {
-    return smallestDivisor(num, pro +1);
-  }
-}
+  return numIp.join('.');
+};
+
+// '128.32.10.1'
+console.log(intToIp(4294967295));
